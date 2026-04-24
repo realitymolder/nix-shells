@@ -7,10 +7,10 @@
   };
 
   outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {
-      inherit inputs;
-    } {
-      perSystem = { self', pkgs, system, ... }:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
+
+      perSystem = { system, ... }:
         let
           pkgs-unfree = import inputs.nixpkgs {
             inherit system;
@@ -19,24 +19,20 @@
         in
         {
           devShells.default = pkgs-unfree.mkShell {
-            buildInputs = with pkgs-unfree; [
+            nativeBuildInputs = with pkgs-unfree; [
               git
               cpio
               wget
               unzip
-
               uv
-
               SDL2
               SDL2_image
               pixman
               dtc
-
               freetype
               libpng
               libjpeg
               zlib
-
               nodejs
             ];
 
