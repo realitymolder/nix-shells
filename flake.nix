@@ -22,11 +22,11 @@
         in
         {
           devShells = {
-            pebble = import ./shells/pebble.nix { pkgs = pkgs-unfree; };
-            flutter = import ./shells/flutter.nix { pkgs = pkgs-unfree; };
-            rust = import ./shells/rust.nix { pkgs = pkgs-unfree; };
-            nodejs = import ./shells/nodejs.nix { pkgs = pkgs-unfree; };
-            default = import ./shells/flutter.nix { pkgs = pkgs-unfree; };
+            pebble = import ./shells/pebble { pkgs = pkgs-unfree; };
+            flutter = import ./shells/flutter { pkgs = pkgs-unfree; };
+            rust = import ./shells/rust { pkgs = pkgs-unfree; };
+            nodejs = import ./shells/nodejs { pkgs = pkgs-unfree; };
+            default = import ./shells/flutter { pkgs = pkgs-unfree; };
           };
         };
     };
