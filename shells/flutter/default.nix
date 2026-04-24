@@ -4,6 +4,8 @@ let
     buildToolsVersions = [ "28.0.3" ];
     platformVersions = [ "36" "34" ];
     abiVersions = [ "armeabi-v7a" "arm64-v8a" "x86_64" "x86" ];
+    includeEmulator = true;
+    emulatorVersion = "36.1.0";
   };
 in
 pkgs.mkShell {
