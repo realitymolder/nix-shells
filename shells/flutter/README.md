@@ -7,6 +7,7 @@ Flutter + Android SDK development environment.
 - `flutter` SDK
 - `android-sdk` (API 36/34, build-tools 28.0.3)
 - `android-emulator` (API 36)
+- `ungoogled-chromium` (for Flutter web)
 - `clang`, `jdk17`, `nodejs_20`
 
 ## Usage
@@ -34,7 +35,17 @@ flutter emulators launch <emulator_id>
 flutter run -d <emulator_id>
 ```
 
+## Flutter Web
+
+```bash
+# Run on Chrome (uses ungoogled-chromium)
+flutter run -d chrome
+
+# Or list available devices first
+flutter devices
+flutter run -d <device_id>
+```
+
 ## Known Limitations
 
-- Chrome not available (headless environment)
 - Network check may fail due to TLS certs in sandbox

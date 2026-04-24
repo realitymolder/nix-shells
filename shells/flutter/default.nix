@@ -15,17 +15,19 @@ pkgs.mkShell {
     git
     nodejs_20
     jdk17
+    ungoogled-chromium
   ];
 
   buildInputs = with pkgs; [
     android-sdk.androidsdk
   ];
 
-shellHook = ''
+  shellHook = ''
     ANDROID_HOME="${android-sdk.androidsdk}/libexec/android-sdk"
     ANDROID_SDK_ROOT="$ANDROID_HOME"
     export ANDROID_HOME ANDROID_SDK_ROOT
     export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
+    export CHROME_EXECUTABLE="${pkgs.ungoogled-chromium}/bin/chromium"
 
     yes | flutter doctor --android-licenses 2>/dev/null || true
     yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses 2>/dev/null || true
