@@ -23,10 +23,16 @@ pkgs.mkShell {
   ];
 
   shellHook = ''
-    ANDROID_HOME="${android-sdk.androidsdk}/libexec/android-sdk"
-    ANDROID_SDK_ROOT="$ANDROID_HOME"
-    export ANDROID_HOME ANDROID_SDK_ROOT
-    export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
+    # Copy SDK to writable location
+    export ANDROID_SDK_ROOT="$HOME/.android/sdk"
+    export ANDROID_HOME="$ANDROID_SDK_ROOT"
+    mkdir -p "$ANDROID_SDK_ROOT"
+
+    if [ ! -d "$ANDROID_SDK_ROOT/platforms" ]; then
+      cp -r "${android-sdk.androidsdk}/libexec/android-sdk/"* "$ANDROID_SDK_ROOT/"
+    fi
+
+    export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
     export CHROME_EXECUTABLE="${pkgs.ungoogled-chromium}/bin/chromium"
 
     yes | flutter doctor --android-licenses 2>/dev/null || true
