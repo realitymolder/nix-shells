@@ -1,4 +1,4 @@
-# Pebble SDK
+# Nix Shells
 
 Multi-environment Nix flake for development.
 

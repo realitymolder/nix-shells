@@ -1,5 +1,5 @@
 {
-  description = "Pebble SDK - Multi-Environment Development Flake";
+  description = "Nix Shells - Multi-Environment Development Flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
