@@ -21,18 +21,19 @@ flutter doctor
 
 ## Android Emulator
 
+The shell automatically:
+- Copies Android SDK to `~/.local/android-sdk`
+- Creates AVD "pixel34" with system image if not present
+
 ```bash
 # List available emulators
 flutter emulators
 
-# Create a new emulator (if none exist)
-flutter emulators --create "flutter_emulator"
-
 # Launch an emulator
-flutter emulators launch <emulator_id>
+flutter emulators launch pixel34
 
 # Or run directly on emulator
-flutter run -d <emulator_id>
+flutter run -d pixel34
 ```
 
 ## Flutter Web
