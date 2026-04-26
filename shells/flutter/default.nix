@@ -32,12 +32,17 @@ pkgs.mkShell rec {
   DART_ROOT = "${pkgs.flutter}/bin/cache/dart-sdk";
   GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/libexec/android-sdk/build-tools/36.0.0/aapt2";
   QT_QPA_PLATFORM = "wayland;xcb";
-  buildInputs = [
+buildInputs = [
     androidSdk
     pkgs.flutter
     pkgs.qemu_kvm
     pkgs.gradle
     pkgs.jdk17
+    pkgs.libsecret
+  ];
+  nativeBuildInputs = with pkgs; [
+    pkg-config
+    libsecret.dev
   ];
   LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath [pkgs.vulkan-loader pkgs.libGL]}";
   shellHook = ''
