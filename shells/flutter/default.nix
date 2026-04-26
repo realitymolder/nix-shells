@@ -27,7 +27,7 @@ in
 pkgs.mkShell rec {
   ANDROID_HOME = "${androidSdk}/libexec/android-sdk";
   ANDROID_SDK_ROOT = "${androidSdk}/libexec/android-sdk";
-  JAVA_HOME = pkgs.jdk11.home;
+  JAVA_HOME = pkgs.jdk17.home;
   FLUTTER_ROOT = pkgs.flutter;
   DART_ROOT = "${pkgs.flutter}/bin/cache/dart-sdk";
   GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/libexec/android-sdk/build-tools/36.0.0/aapt2";
@@ -37,7 +37,7 @@ pkgs.mkShell rec {
     pkgs.flutter
     pkgs.qemu_kvm
     pkgs.gradle
-    pkgs.jdk11
+    pkgs.jdk17
   ];
   LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath [pkgs.vulkan-loader pkgs.libGL]}";
   shellHook = ''
