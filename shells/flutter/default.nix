@@ -1,5 +1,8 @@
 { pkgs }:
 let
+  flutterVersion = pkgs.flutterBinary;
+in
+let
   androidEnv = pkgs.androidenv.override { licenseAccepted = true; };
   androidComposition = androidEnv.composeAndroidPackages {
     cmdLineToolsVersion = "8.0";
@@ -28,13 +31,14 @@ pkgs.mkShell rec {
   ANDROID_HOME = "${androidSdk}/libexec/android-sdk";
   ANDROID_SDK_ROOT = "${androidSdk}/libexec/android-sdk";
   JAVA_HOME = pkgs.jdk17.home;
-  FLUTTER_ROOT = pkgs.flutter;
-  DART_ROOT = "${pkgs.flutter}/bin/cache/dart-sdk";
+  FLUTTER_ROOT = flutterVersion;
+  DART_ROOT = "${flutterVersion}/bin/cache/dart-sdk";
   GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/libexec/android-sdk/build-tools/36.0.0/aapt2";
   QT_QPA_PLATFORM = "wayland;xcb";
 buildInputs = [
     androidSdk
-    pkgs.flutter
+    flutterVersion
+    pkgs.ca-certificates
     pkgs.qemu_kvm
     pkgs.gradle
     pkgs.jdk17
@@ -46,6 +50,8 @@ buildInputs = [
   ];
   LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath [pkgs.vulkan-loader pkgs.libGL]}";
   shellHook = ''
+    export SSL_CERT_FILE="${pkgs.ca-certificates}/etc/ssl/certs/ca-bundle.crt"
+    export SSL_CERT_DIR="${pkgs.ca-certificates}/etc/ssl/certs"
     if [ -z "$PUB_CACHE" ]; then
       export PATH="$PATH:$HOME/.pub-cache/bin"
     else
