@@ -20,9 +20,7 @@ flutter --version
 flutter doctor
 ```
 
-### From your project directory
-
-Activate the Flutter shell from any project without leaving it:
+### From your project directory (local)
 
 ```bash
 devbox shell --config /path/to/nix-shells/shells/flutter
@@ -34,6 +32,46 @@ Or create a thin wrapper in your project (e.g. `bin/dev.sh`):
 #!/usr/bin/env bash
 exec devbox shell --config /path/to/nix-shells/shells/flutter
 ```
+
+### From a remote project (GitHub repo)
+
+Reference the Android SDK from this flake, plus the init_hook inline:
+
+Create `devbox.json` in your project:
+
+```json
+{
+  "packages": [
+    "flutter",
+    "jdk17",
+    "gradle",
+    "qemu_kvm",
+    "libsecret",
+    "nix",
+    "github:realitymolder/nix-shells#androidSdk"
+  ],
+  "env": {
+    "QT_QPA_PLATFORM": "wayland;xcb",
+    "PUB_CACHE": "$HOME/.pub-cache"
+  },
+  "shell": {
+    "init_hook": [
+      "ANDROID_SDK_STORE=$(nix build --no-link --print-out-paths 'github:realitymolder/nix-shells#androidSdk' 2>/dev/null || true)",
+      "if [ -n \"$ANDROID_SDK_STORE\" ]; then",
+      "  export ANDROID_HOME=\"$ANDROID_SDK_STORE/libexec/android-sdk\"",
+      "  export ANDROID_SDK_ROOT=\"$ANDROID_HOME\"",
+      "  GRADLE_OPTS=\"-Dorg.gradle.project.android.aapt2FromMavenOverride=$ANDROID_HOME/build-tools/36.0.0/aapt2\"",
+      "  flutter config --android-sdk \"$ANDROID_HOME\" 2>/dev/null || true",
+      "fi",
+      "JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java 2>/dev/null))) 2>/dev/null || true)",
+      "export JAVA_HOME",
+      "export PATH=\"$PATH:${PUB_CACHE:-$HOME/.pub-cache}/bin\""
+    ]
+  }
+}
+```
+
+Now any developer cloning your repo gets the same Flutter + Android SDK environment.
 
 The `init_hook` automatically:
 - Sets `ANDROID_HOME` / `ANDROID_SDK_ROOT` to the composed Android SDK

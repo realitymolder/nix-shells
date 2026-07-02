@@ -19,20 +19,39 @@ flutter doctor
 
 ### Use from another project
 
-From any directory on your machine, activate the Flutter shell without leaving your project:
+**Local machine** — reference by path:
 
 ```bash
 devbox shell --config /path/to/nix-shells/shells/flutter
 ```
 
-Or create a thin wrapper script in your project (e.g. `bin/dev.sh`):
+**GitHub repo** — reference this flake directly in your project's `devbox.json`:
 
-```bash
-#!/usr/bin/env bash
-exec devbox shell --config /path/to/nix-shells/shells/flutter
+```json
+{
+  "packages": {
+    "flutter": "latest",
+    "jdk17": "latest",
+    "gradle": "latest",
+    "qemu_kvm": "latest",
+    "libsecret": "latest",
+    "nix": "latest",
+    "github:realitymolder/nix-shells#androidSdk": "latest"
+  },
+  "shell": {
+    "init_hook": [
+      "ANDROID_SDK_STORE=$(nix build --no-link --print-out-paths 'github:realitymolder/nix-shells#androidSdk' 2>/dev/null || true)",
+      "if [ -n \"$ANDROID_SDK_STORE\" ]; then",
+      "  export ANDROID_HOME=\"$ANDROID_SDK_STORE/libexec/android-sdk\"",
+      "  export ANDROID_SDK_ROOT=\"$ANDROID_HOME\"",
+      "  flutter config --android-sdk \"$ANDROID_HOME\" 2>/dev/null || true",
+      "fi"
+    ]
+  }
+}
 ```
 
-Make it executable and run `./bin/dev.sh` from your project.
+The nixpkgs `flutter` + `jdk17` + this flake's `androidSdk` is all that's needed for `flutter doctor` to pass.
 
 ## Requirements
 
