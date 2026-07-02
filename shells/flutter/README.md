@@ -1,50 +1,50 @@
-# Flutter Shell
+# Flutter Shell (devbox)
 
-Flutter + Android SDK development environment.
+Flutter + Android SDK development environment powered by [devbox](https://www.jetify.com/devbox/).
 
 ## Packages
 
-- `flutter` SDK
-- `android-sdk` (API 36/34, build-tools 28.0.3)
-- `android-emulator` (API 36)
-- `ungoogled-chromium` (for Flutter web)
-- `clang`, `jdk17`, `nodejs_20`
+- `flutter` SDK (from nixpkgs)
+- `jdk17` (from nixpkgs)
+- `gradle` (from nixpkgs)
+- `qemu_kvm` (from nixpkgs)
+- `libsecret` (from nixpkgs)
+- Android SDK (custom composition via local flake: API 36, build-tools 36.0.0, platform-tools 36.0.2, cmdline-tools 8.0)
 
 ## Usage
 
 ```bash
-nix develop       # Default (Flutter)
-nix develop .#flutter
+cd shells/flutter
+devbox shell
 flutter --version
 flutter doctor
 ```
 
-## Android Emulator
+The `init_hook` automatically:
+- Sets `ANDROID_HOME` / `ANDROID_SDK_ROOT` to the composed Android SDK
+- Sets `JAVA_HOME` to the JDK 17 in the shell
+- Configures `flutter config --android-sdk` so the Flutter tool uses the correct SDK path
+- Adds `~/.pub-cache/bin` to `PATH`
 
-The shell automatically:
-- Copies Android SDK to `~/.local/android-sdk`
-- Creates AVD "pixel34" with system image if not present
+## Android Emulator
 
 ```bash
 # List available emulators
 flutter emulators
 
-# Launch an emulator
-flutter emulators launch pixel34
+# Create and launch an AVD (requires an AVD image to exist)
+flutter emulators --create
+flutter emulators launch <avd_id>
 
 # Or run directly on emulator
-flutter run -d pixel34
+flutter run -d <device_id>
 ```
 
 ## Flutter Web
 
 ```bash
-# Run on Chrome (uses ungoogled-chromium)
 flutter run -d chrome
-
-# Or list available devices first
 flutter devices
-flutter run -d <device_id>
 ```
 
 ## Known Limitations

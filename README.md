@@ -1,26 +1,25 @@
 # Nix Shells
 
-Multi-environment devenv-based development flake.
+Multi-environment development shells for Nix.
 
-## Quick Start
+| Shell | Tool | Usage |
+|-------|------|-------|
+| Flutter + Android SDK | [devbox](https://www.jetify.com/devbox/) | `cd shells/flutter && devbox shell` |
+| Pebble watch SDK | [devenv](https://devenv.sh) | `nix develop .#pebble` |
+| Rust toolchain | [devenv](https://devenv.sh) | `nix develop .#rust` |
+| Node.js + Bun | [devenv](https://devenv.sh) | `nix develop .#nodejs` |
+
+## Quick Start (Flutter)
 
 ```bash
-nix develop --no-pure-eval       # Flutter (default)
+cd shells/flutter
+devbox shell
+flutter doctor
 ```
-
-## Environments
-
-| Command | Description |
-|---------|-------------|
-| `nix develop --no-pure-eval` | Flutter + Android SDK (default) |
-| `nix develop --no-pure-eval .#pebble` | Pebble watch SDK |
-| `nix develop --no-pure-eval .#rust` | Rust toolchain |
-| `nix develop --no-pure-eval .#nodejs` | Node.js + Bun |
-
-All shells are backed by [devenv](https://devenv.sh) and can also be entered via `devenv shell` from the respective shell directory.
 
 ## Requirements
 
 - Nix 2.18+ with flakes enabled
 - `nix-daemon` running (for sandboxed downloads)
-- devenv CLI (optional, for `devenv shell` usage)
+- devbox CLI (optional for Flutter shell; install via `nix shell nixpkgs#devbox`)
+- devenv CLI (optional, for `devenv shell` usage with other shells)

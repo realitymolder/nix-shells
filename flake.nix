@@ -5,6 +5,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     devenv.url = "github:cachix/devenv";
+    nix2container.url = "github:nlewo/nix2container";
+    nix2container.inputs = { nixpkgs.follows = "nixpkgs"; };
+    mk-shell-bin.url = "github:rrbutani/nix-mk-shell-bin";
   };
 
   outputs = inputs@{ flake-parts, nixpkgs, devenv, ... }:
@@ -26,10 +29,9 @@
 
         devenv.shells = {
           pebble = import ./shells/pebble/devenv.nix;
-          flutter = import ./shells/flutter/devenv.nix;
           rust = import ./shells/rust/devenv.nix;
           nodejs = import ./shells/nodejs/devenv.nix;
-          default = import ./shells/flutter/devenv.nix;
+          default = import ./shells/rust/devenv.nix;
         };
       };
     };

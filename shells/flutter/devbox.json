@@ -1,0 +1,18 @@
+{
+  "packages": [
+    "flutter",
+    "jdk17",
+    "gradle",
+    "qemu_kvm",
+    "libsecret",
+    "nix",
+    "path:./sdk#androidSdk"
+  ],
+  "env": {
+    "QT_QPA_PLATFORM": "wayland;xcb",
+    "PUB_CACHE": "$HOME/.pub-cache"
+  },
+  "shell": {
+    "init_hook": "source ./init_hook.sh"
+  }
+}
