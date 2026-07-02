@@ -17,6 +17,23 @@ devbox shell
 flutter doctor
 ```
 
+### Use from another project
+
+From any directory on your machine, activate the Flutter shell without leaving your project:
+
+```bash
+devbox shell --config /path/to/nix-shells/shells/flutter
+```
+
+Or create a thin wrapper script in your project (e.g. `bin/dev.sh`):
+
+```bash
+#!/usr/bin/env bash
+exec devbox shell --config /path/to/nix-shells/shells/flutter
+```
+
+Make it executable and run `./bin/dev.sh` from your project.
+
 ## Requirements
 
 - Nix 2.18+ with flakes enabled

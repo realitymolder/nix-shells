@@ -20,6 +20,21 @@ flutter --version
 flutter doctor
 ```
 
+### From your project directory
+
+Activate the Flutter shell from any project without leaving it:
+
+```bash
+devbox shell --config /path/to/nix-shells/shells/flutter
+```
+
+Or create a thin wrapper in your project (e.g. `bin/dev.sh`):
+
+```bash
+#!/usr/bin/env bash
+exec devbox shell --config /path/to/nix-shells/shells/flutter
+```
+
 The `init_hook` automatically:
 - Sets `ANDROID_HOME` / `ANDROID_SDK_ROOT` to the composed Android SDK
 - Sets `JAVA_HOME` to the JDK 17 in the shell
