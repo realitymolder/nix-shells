@@ -1,6 +1,5 @@
-{ pkgs }:
-pkgs.mkShell {
-  nativeBuildInputs = with pkgs; [
+{ pkgs, ... }: {
+  packages = with pkgs; [
     git
     cpio
     wget
@@ -17,12 +16,15 @@ pkgs.mkShell {
     nodejs_20
   ];
 
-  shellHook = ''
+  scripts.pebble.exec = ''
     if ! command -v pebble &> /dev/null; then
       echo "Installing pebble-tool..."
       uv tool install pebble-tool --python 3.13
     fi
+    pebble "$@"
+  '';
 
+  enterShell = ''
     export PATH="$HOME/.local/bin:$PATH"
 
     echo "═══════════════════════════════════════"

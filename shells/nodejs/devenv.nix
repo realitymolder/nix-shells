@@ -1,6 +1,5 @@
-{ pkgs }:
-pkgs.mkShell {
-  nativeBuildInputs = with pkgs; [
+{ pkgs, ... }: {
+  packages = with pkgs; [
     nodejs_20
     bun
     pnpm_9
@@ -11,7 +10,7 @@ pkgs.mkShell {
     just
   ];
 
-  shellHook = ''
+  enterShell = ''
     echo "═══════════════════════════════════════"
     echo "  Node.js Development Ready!"
     echo "  Run: node --version"

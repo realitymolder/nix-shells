@@ -1,6 +1,5 @@
-{ pkgs }:
-pkgs.mkShell {
-  nativeBuildInputs = with pkgs; [
+{ pkgs, ... }: {
+  packages = with pkgs; [
     rustup
     cargo
     rustfmt
@@ -10,7 +9,7 @@ pkgs.mkShell {
     gdb
   ];
 
-  shellHook = ''
+  enterShell = ''
     echo "═══════════════════════════════════════"
     echo "  Rust Development Ready!"
     echo "  Run: rustup show"
