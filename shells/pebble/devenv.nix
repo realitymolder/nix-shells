@@ -1,4 +1,11 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }:
+
+{
+  languages.javascript = {
+    enable = true;
+    package = pkgs.nodejs_20;
+  };
+
   packages = with pkgs; [
     git
     cpio
@@ -13,25 +20,14 @@
     libpng
     libjpeg
     zlib
-    nodejs_20
   ];
 
   scripts.pebble.exec = ''
+    export PATH="$HOME/.local/bin:$PATH"
     if ! command -v pebble &> /dev/null; then
       echo "Installing pebble-tool..."
       uv tool install pebble-tool --python 3.13
     fi
     pebble "$@"
-  '';
-
-  enterShell = ''
-    export PATH="$HOME/.local/bin:$PATH"
-
-    echo "═══════════════════════════════════════"
-    echo "  Pebble SDK Ready!"
-    echo "  Run: pebble sdk install latest"
-    echo "  Run: pebble new-project <name>"
-    echo "═══════════════════════════════════════"
-    pebble --version 2>/dev/null || true
   '';
 }
