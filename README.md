@@ -1,23 +1,47 @@
 # Nix Shells
 
-Multi-environment Nix flake for development.
+Multi-environment development shells for Nix, powered by [devenv](https://devenv.sh).
 
-## Quick Start
+Each shell is a standalone devenv project (`devenv.yaml` + `devenv.nix`).
+
+| Shell | Usage |
+|-------|-------|
+| Flutter + Android SDK | `cd shells/flutter && devenv shell` |
+| Pebble watch SDK | `cd shells/pebble && devenv shell` |
+| Rust toolchain | `cd shells/rust && devenv shell` |
+| Node.js + Bun | `cd shells/nodejs && devenv shell` |
+
+## Quick Start (Flutter)
 
 ```bash
-nix develop       # Flutter (default)
+cd shells/flutter
+devenv shell
+flutter doctor
 ```
 
-## Environments
+## Use in your own project
 
-| Command | Description |
-|---------|-------------|
-| `nix develop` | Flutter + Android SDK (default) |
-| `nix develop .#pebble` | Pebble watch SDK |
-| `nix develop .#rust` | Rust toolchain |
-| `nix develop .#nodejs` | Node.js + Bun |
+Merge a shell into your project's `devenv.yaml`:
+
+```yaml
+imports:
+  - /path/to/nix-shells/shells/flutter
+```
+
+Or copy the `devenv.nix` module into your project. For Flutter + Android SDK:
+
+```nix
+{ pkgs, ... }:
+{
+  android = {
+    enable = true;
+    flutter.enable = true;
+  };
+}
+```
 
 ## Requirements
 
 - Nix 2.18+ with flakes enabled
 - `nix-daemon` running (for sandboxed downloads)
+- devenv CLI (install via `nix shell nixpkgs#devenv`)
